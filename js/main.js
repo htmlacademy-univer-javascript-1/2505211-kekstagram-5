@@ -1,4 +1,3 @@
-// main.js
 import { generatePhotos } from './data.js';
 
 // Генерация массива фотографий

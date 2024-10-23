@@ -7,8 +7,6 @@ console.log(checkStringLength('проверяемая строка', 20)); // tr
 console.log(checkStringLength('проверяемая строка', 18)); // true
 console.log(checkStringLength('проверяемая строка', 10)); // false
 
-
-
 function isPalindrome(str) {
   // Приводим строку к нижнему регистру и убираем пробелы
   const cleanedStr = str.replace(/\s+/g, '').toLowerCase();

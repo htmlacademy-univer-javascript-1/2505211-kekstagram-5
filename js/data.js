@@ -1,4 +1,3 @@
-// data.js
 import { getRandomInt } from './utils.js';
 
 const messages = [
