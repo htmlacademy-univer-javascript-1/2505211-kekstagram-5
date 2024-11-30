@@ -36,7 +36,7 @@ const onDocumentKeydown = (evt) => {
     closePhoto();
   }
 };
-export const openPhoto = (photo) => {
+export const photoOpening = (photo) => {
   bigPicture.classList.remove('hidden');
   bigPictureImage.src = photo.url;
   bigPictureImage.alt = photo.description;
