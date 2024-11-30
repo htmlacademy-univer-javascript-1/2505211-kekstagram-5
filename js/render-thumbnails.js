@@ -24,3 +24,4 @@ generatePhotos().forEach((photo) => {
 });
 
 document.querySelector('.pictures').appendChild(miniaturesFragment);
+
