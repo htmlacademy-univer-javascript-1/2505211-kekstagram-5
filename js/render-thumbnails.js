@@ -1,4 +1,5 @@
 import {generatePhotos} from './data.js';
+import { photoOpening } from './photo-opening';
 
 const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture'); // Исправлено имя переменной
 const miniaturesFragment = document.createDocumentFragment();
@@ -14,7 +15,13 @@ generatePhotos().forEach((photo) => {
   miniatureLikes.textContent = photo.likes;
   miniatureComments.textContent = photo.comments.length;
 
+  miniature.addEventListener('click', () => {
+    photoOpening(photo);
+  });
+
+
   miniaturesFragment.appendChild(miniature);
 });
 
 document.querySelector('.pictures').appendChild(miniaturesFragment);
+
