@@ -90,3 +90,4 @@ hideBigPictureBtn.addEventListener('click', () => {
   closePhoto();
 });
 
+
