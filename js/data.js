@@ -1,4 +1,4 @@
-import { getRandomInt } from './utils.js';
+import { getRandomInteger } from './utils.js';
 
 const messages = [
   'Всё отлично!',
@@ -11,6 +11,8 @@ const messages = [
 
 const names = ['Артём', 'Светлана', 'Иван', 'Мария', 'Дмитрий', 'Елена'];
 
+const PHOTO_COUNT = 25;
+
 export const generateComments = (count) => {
   const comments = [];
   const usedIds = new Set();
@@ -18,13 +20,13 @@ export const generateComments = (count) => {
   for (let i = 0; i < count; i++) {
     let id;
     do {
-      id = getRandomInt(1, 1000); // Генерация ID комментария
+      id = getRandomInteger(1, 1000); // Генерация ID комментария
     } while (usedIds.has(id));
     usedIds.add(id);
 
-    const randomMessage = messages[getRandomInt(0, messages.length - 1)];
-    const randomName = names[getRandomInt(0, names.length - 1)];
-    const avatarId = getRandomInt(1, 6); // Случайный ID аватара от 1 до 6
+    const randomMessage = messages[getRandomInteger(0, messages.length - 1)];
+    const randomName = names[getRandomInteger(0, names.length - 1)];
+    const avatarId = getRandomInteger(1, 6); // Случайный ID аватара от 1 до 6
 
     comments.push({
       id: id,
@@ -40,13 +42,13 @@ export const generateComments = (count) => {
 export const generatePhotos = () => {
   const photos = [];
 
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= PHOTO_COUNT; i++) {
     photos.push({
       id: i,
       url: `photos/${i}.jpg`,
       description: `Описание фотографии номер ${i}. Это интересный момент!`,
-      likes: getRandomInt(15, 200),
-      comments: generateComments(getRandomInt(0, 30)), // Случайное количество комментариев от 0 до 30
+      likes: getRandomInteger(15, 200),
+      comments: generateComments(getRandomInteger(0, 30)), // Случайное количество комментариев от 0 до 30
     });
   }
 
