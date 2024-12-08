@@ -1,7 +1,7 @@
 import {generatePhotos} from './data.js';
 import { photoOpening } from './photo-opening';
 
-const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture'); // Исправлено имя переменной
+const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const miniaturesFragment = document.createDocumentFragment();
 
 generatePhotos().forEach((photo) => {
@@ -24,4 +24,3 @@ generatePhotos().forEach((photo) => {
 });
 
 document.querySelector('.pictures').appendChild(miniaturesFragment);
-
