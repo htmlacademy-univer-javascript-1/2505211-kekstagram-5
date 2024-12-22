@@ -1,11 +1,11 @@
-import {generatePhotos} from './data.js';
-import { photoOpening } from './photo-opening';
+import { createPhotoDescriptions } from './data.js';
+import { openPhoto } from './open_photo.js';
 
-const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture'); // Исправлено имя переменной
+const mitiatureTemplate = document.querySelector('#picture');
 const miniaturesFragment = document.createDocumentFragment();
 
-generatePhotos().forEach((photo) => {
-  const miniature = miniatureTemplate.cloneNode(true);
+createPhotoDescriptions().forEach((photo) => {
+  const miniature = mitiatureTemplate.cloneNode(true).content.querySelector('.picture');
   const miniatureImage = miniature.querySelector('.picture__img');
   const miniatureLikes = miniature.querySelector('.picture__likes');
   const miniatureComments = miniature.querySelector('.picture__comments');
@@ -16,12 +16,11 @@ generatePhotos().forEach((photo) => {
   miniatureComments.textContent = photo.comments.length;
 
   miniature.addEventListener('click', () => {
-    photoOpening(photo);
+    openPhoto(photo);
   });
-
 
   miniaturesFragment.appendChild(miniature);
 });
 
-document.querySelector('.pictures').appendChild(miniaturesFragment);
 
+document.querySelector('.pictures').appendChild(miniaturesFragment);
