@@ -1,6 +1,2 @@
-import { generatePhotos } from './data.js';
-import './form.js';
-
-// Генерация массива фотографий
-const photosArray = generatePhotos();
-console.log(photosArray);
+import './miniature_draw.js';
+import './upload_form/upload_form.js';

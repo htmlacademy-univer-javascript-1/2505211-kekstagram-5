@@ -1,56 +1,85 @@
-import { getRandomInteger } from './utils.js';
+import {getRandomArrayElement, getRandomInteger, createSequenceGenerator} from './util.js';
 
-const messages = [
-  'Всё отлично!',
+const PHOTO_DESCRIPTIONS_COUNT = 25;
+const MAX_COMMENTS_COUNT = 30;
+const MIN_LIKES_COUNT = 15;
+const MAX_LIKES_COUNT = 200;
+
+const COMMENTS_MESSAGES = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
   'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-];
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'];
 
-const names = ['Артём', 'Светлана', 'Иван', 'Мария', 'Дмитрий', 'Елена'];
+const NAMES = ['Анна', 'Борис', 'Василий', 'Геннадий', 'Дмитрий', 'Евгений', 'Жанна', 'Захар', 'Иван',
+  'Карл', 'Леонид', 'Михаил', 'Николай', 'Олег', 'Павел', 'Роман', 'Сергей', 'Татьяна', 'Федор'];
 
-const PHOTO_COUNT = 25;
+const DESCRIPTIONS = [
+  'Восход солнца над горизонтом',
+  'Луна в небе',
+  'Прекрасный закат',
+  'Звездная ночь',
+  'Уютный утренний туман над озером',
+  'Цветущий сад под ярким солнцем',
+  'Шумный городской пейзаж на закате',
+  'Снежные вершины гор под ясным небом',
+  'Тёплый вечер на пляже с мерцающими огнями',
+  'Лесная тропа весной, усеянная цветами',
+  'Арктическое сияние над ледяной пустыней',
+  'Старинный маяк на фоне бушующего моря',
+  'Золотистые поля пшеницы под лазурным небом',
+  'Нежный рассвет на берегу океана с лёгкими волнами',];
 
-export const generateComments = (count) => {
-  const comments = [];
-  const usedIds = new Set();
 
-  for (let i = 0; i < count; i++) {
-    let id;
-    do {
-      id = getRandomInteger(1, 1000); // Генерация ID комментария
-    } while (usedIds.has(id));
-    usedIds.add(id);
+function createUrlGenerator () {
+  const generateUrlIndex = createSequenceGenerator();
+  return function () {
+    const id = generateUrlIndex();
+    return `photos/${id}.jpg`;
+  };
+}
 
-    const randomMessage = messages[getRandomInteger(0, messages.length - 1)];
-    const randomName = names[getRandomInteger(0, names.length - 1)];
-    const avatarId = getRandomInteger(1, 6); // Случайный ID аватара от 1 до 6
+const getDescription = () => getRandomArrayElement(DESCRIPTIONS);
 
-    comments.push({
-      id: id,
-      avatar: `img/avatar-${avatarId}.svg`,
-      message: randomMessage,
-      name: randomName,
-    });
-  }
+function createCommensIdGenerator() {
+  const existingCommentsId = new Set();
+  const limit = PHOTO_DESCRIPTIONS_COUNT * (MAX_COMMENTS_COUNT + 1);
+  return function () {
+    let id = getRandomInteger(1, limit);
+    while (existingCommentsId.has(id)) {
+      id = getRandomInteger(1, limit);
+    }
+    existingCommentsId.add(id);
+    return id;
+  };
+}
+const generateCommentId = createCommensIdGenerator();
+const generateAvatar = () => `img/avatar-${getRandomInteger(1, 6)}.svg`;
+const generateCommentMessage = () => getRandomArrayElement(COMMENTS_MESSAGES);
+const generateName = () => getRandomArrayElement(NAMES);
 
-  return comments;
-};
 
-export const generatePhotos = () => {
-  const photos = [];
+const generateId = createSequenceGenerator();
+const generateUrl = createUrlGenerator();
+const generateDescription = () => getDescription();
+const generateLikes = () => getRandomInteger(MIN_LIKES_COUNT, MAX_LIKES_COUNT);
 
-  for (let i = 1; i <= PHOTO_COUNT; i++) {
-    photos.push({
-      id: i,
-      url: `photos/${i}.jpg`,
-      description: `Описание фотографии номер ${i}. Это интересный момент!`,
-      likes: getRandomInteger(15, 200),
-      comments: generateComments(getRandomInteger(0, 30)), // Случайное количество комментариев от 0 до 30
-    });
-  }
+const createComment = () => ({
+  id: generateCommentId(),
+  avatar: generateAvatar(),
+  message: generateCommentMessage(),
+  name: generateName(),
+});
 
-  return photos;
-};
+const generateComments = () => Array.from({ length: getRandomInteger(0, MAX_COMMENTS_COUNT)}, createComment);
+
+const generatePhotoDescription = () => ({
+  id: generateId(),
+  url: generateUrl(),
+  description: generateDescription(),
+  likes: generateLikes(),
+  comments: generateComments(),
+});
+
+export const createPhotoDescriptions = () => Array.from({ length: PHOTO_DESCRIPTIONS_COUNT }, generatePhotoDescription);
