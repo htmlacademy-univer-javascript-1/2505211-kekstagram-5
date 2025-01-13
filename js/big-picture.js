@@ -105,3 +105,9 @@ function handleEscapePress(event) {
 loadMoreButton.addEventListener('click', displayComments);
 
 export { openBigPicture };
+
+
+
+
+
+
