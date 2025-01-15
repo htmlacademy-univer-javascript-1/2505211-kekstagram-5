@@ -18,10 +18,11 @@ function createThumbnail(photoData) {
 }
 
 
-function renderThumbnails(photoArray) {
+function renderThumbnails(photosArray) {
   const thumbnailContainer = document.querySelector('.pictures');
+  const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-  photoArray.forEach((photo) => {
+  photosArray.forEach((photo) => {
     const thumbnailElement = createThumbnail(photo);
     thumbnailElement.querySelector('.picture__img').src = photo.url;
     thumbnailElement.querySelector('.picture__likes').textContent = photo.likes;

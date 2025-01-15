@@ -2,9 +2,9 @@ import { getData } from './api.js';
 import { renderThumbnails } from './thumbnails.js';
 import { initForm } from './form.js';
 
-const photoData = [];
 const DEBOUNCE_DELAY = 500; // Задержка для устранения дребезга
 const RANDOM_PHOTO_LIMIT = 10; // Количество случайных фото
+const photosData = [];
 const filterSection = document.querySelector('.img-filters'); // Блок с фильтрами
 const galleryContainer = document.querySelector('.pictures'); // Контейнер для изображений
 const filtersBlock = document.querySelector('.img-filters');
@@ -94,4 +94,4 @@ const fetchPhotos = async () => {
 fetchPhotos();
 
 // Инициализация формы редактирования
-initForm(photoData, renderThumbnails);
+initForm(photosData, renderThumbnails);

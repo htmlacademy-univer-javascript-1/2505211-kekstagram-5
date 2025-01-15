@@ -1,4 +1,4 @@
-export function resetForm() {
+function resetForm() {
   const uploadForm = document.querySelector('.img-upload__form');
   const fileInput = uploadForm.querySelector('.img-upload__input');
   const hashtagsInput = uploadForm.querySelector('.text__hashtags');
@@ -35,8 +35,7 @@ export function resetForm() {
   document.body.classList.remove('modal-open');
 }
 
-
-export function showMessage(messageType) {
+function showMessage(messageType) {
   const templateElement = document.querySelector(`#${messageType}`).content.querySelector(`.${messageType}`);
   const messageClone = templateElement.cloneNode(true);
   document.body.appendChild(messageClone);
@@ -46,18 +45,16 @@ export function showMessage(messageType) {
   // Функция для удаления сообщения
   function removeMessage() {
     messageClone.remove();
-    document.removeEventListener('keydown', handleEscapeKey);
+    document.removeEventListener('keydown', onDocumentKeydownRemoveMessage);
   }
 
   // Функция для обработки нажатия Escape
-  function handleEscapeKey(event) {
-    if (event.key === 'Escape') {
-      removeMessage();
-    }
+  function onDocumentKeydownRemoveMessage(event) {
+    handleEscapePress(event, removeMessage);
   }
 
   // Закрытие сообщения при взаимодействии
-  document.addEventListener('keydown', handleEscapeKey);
+  document.addEventListener('keydown', onDocumentKeydownRemoveMessage);
   closeButton.addEventListener('click', removeMessage);
   messageClone.addEventListener('click', (event) => {
     if (event.target === messageClone) {
@@ -66,3 +63,10 @@ export function showMessage(messageType) {
   });
 }
 
+function handleEscapePress(event, callback) {
+  if (event.key === 'Escape') {
+    callback();
+  }
+}
+
+export { resetForm, showMessage, handleEscapePress };

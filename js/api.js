@@ -22,5 +22,3 @@ const sendData = async (data) => {
 };
 
 export { getData, sendData };
-
-
