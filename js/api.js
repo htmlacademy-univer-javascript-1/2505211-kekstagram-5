@@ -1,28 +1,24 @@
-const getDataUrl = 'https://29.javascript.htmlacademy.pro/kekstagram/data';
-const postDataUrl = 'https://29.javascript.htmlacademy.pro/kekstagram';
+const BASE_URL = 'https://29.javascript.htmlacademy.pro/kekstagram';
 
-const getData = () =>
-  fetch(getDataUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      throw new Error(error.message);
-    });
+// Загрузка данных с сервера
+const getData = async () => {
+  const response = await fetch(`${BASE_URL}/data`);
+  if (!response.ok) {
+    throw new Error('Ошибка загрузки данных');
+  }
+  return await response.json();
+};
 
-const postData = (body) =>
-  fetch(postDataUrl, {method: 'POST', body: body})
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error();
-      }
-      return response;
-    })
-    .catch((error) => {
-      throw new Error(error);
-    });
+// Отправка данных на сервер
+const sendData = async (data) => {
+  const response = await fetch(BASE_URL, {
+    method: 'POST',
+    body: data,
+  });
+  if (!response.ok) {
+    throw new Error('Ошибка отправки данных');
+  }
+  return await response.json();
+};
 
-export { getData, postData };
+export { getData, sendData };
