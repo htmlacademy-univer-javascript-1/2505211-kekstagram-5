@@ -1,3 +1,6 @@
+import { handleEscapePress } from './form-utils.js';
+
+const MAX_COMMENTS_PER_BATCH = 5;
 const fullViewContainer = document.querySelector('.big-picture');
 const fullViewImage = fullViewContainer.querySelector('.big-picture__img img');
 const likeCounter = fullViewContainer.querySelector('.likes-count');
@@ -7,7 +10,6 @@ const imageDescription = fullViewContainer.querySelector('.social__caption');
 const commentStatusBlock = fullViewContainer.querySelector('.social__comment-count');
 const loadMoreButton = fullViewContainer.querySelector('.comments-loader');
 const closeButton = fullViewContainer.querySelector('.big-picture__cancel');
-const MAX_COMMENTS_PER_BATCH = 5;
 
 let totalComments = [];
 let loadedCommentCount = 0;
@@ -85,23 +87,29 @@ function openBigPicture(photoData) {
   fullViewContainer.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  closeButton.addEventListener('click', hideFullView);
-  document.addEventListener('keydown', handleEscapePress);
+  closeButton.addEventListener('click', onCloseButtonClickHideFullView);
+  document.addEventListener('keydown', onDocumentKeydownHideFullView);
 }
 
 function hideFullView() {
   fullViewContainer.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  closeButton.removeEventListener('click', hideFullView);
-  document.removeEventListener('keydown', handleEscapePress);
+  closeButton.removeEventListener('click', onCloseButtonClickHideFullView);
+  document.removeEventListener('keydown', onDocumentKeydownHideFullView);
 }
 
-function handleEscapePress(event) {
-  if (event.key === 'Escape') {
-    hideFullView();
-  }
+function onCloseButtonClickHideFullView() {
+  hideFullView();
 }
 
-loadMoreButton.addEventListener('click', displayComments);
+function onDocumentKeydownHideFullView(event) {
+  handleEscapePress(event, hideFullView);
+}
+
+function onLoadMoreButtonClickDisplayComments() {
+  displayComments();
+}
+
+loadMoreButton.addEventListener('click', onLoadMoreButtonClickDisplayComments);
 
 export { openBigPicture };

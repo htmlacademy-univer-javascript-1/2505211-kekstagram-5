@@ -1,6 +1,10 @@
 import { sendData } from './api.js';
 import { resetForm, showMessage, } from './form-utils.js';
 
+const SCALE_STEP = 25; // Шаг изменения масштаба
+const SCALE_MIN = 25;  // Минимальный масштаб
+const SCALE_MAX = 100; // Максимальный масштаб
+
 
 export function initForm(photos, renderThumbnails) {
   const uploadForm = document.querySelector('.img-upload__form');
@@ -59,7 +63,12 @@ export function initForm(photos, renderThumbnails) {
   });
 
   // Закрытие по нажатию на кнопку
-  closeButton.addEventListener('click', closeUploadOverlay);
+  const onCloseButtonClickCloseUploadOverlay = () => {
+    closeUploadOverlay();
+  };
+
+  // Закрытие по нажатию на кнопку
+  closeButton.addEventListener('click', onCloseButtonClickCloseUploadOverlay);
 
   // Инициализируем масштабирование
   initScaleControls();
@@ -237,7 +246,8 @@ export function initForm(photos, renderThumbnails) {
     }
   });
 
-  closeButton.addEventListener('click', resetForm);
+    // Закрытие по нажатию на кнопку
+    closeButton.addEventListener('click', onCloseButtonClickCloseUploadOverlay);
 
 
   function initScaleControls() {
@@ -245,9 +255,6 @@ export function initForm(photos, renderThumbnails) {
     const scaleControlMinus = document.querySelector('.scale__control--smaller');
     const scaleControlPlus = document.querySelector('.scale__control--bigger');
     const previewImage = document.querySelector('.img-upload__preview img');
-    const SCALE_STEP = 25; // Шаг изменения масштаба
-    const SCALE_MIN = 25;  // Минимальный масштаб
-    const SCALE_MAX = 100; // Максимальный масштаб
 
     // Обновление масштаба изображения
     const updateScale = (value) => {
